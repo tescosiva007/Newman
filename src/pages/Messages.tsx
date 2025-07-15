@@ -11,6 +11,8 @@ interface Message {
   body: string
   created_at: string
   user_id: string
+  stores: any[]
+  store_selection_type: string
 }
 
 const Messages: React.FC = () => {
@@ -133,6 +135,9 @@ const Messages: React.FC = () => {
                     Body
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Stores
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
@@ -154,6 +159,28 @@ const Messages: React.FC = () => {
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-900">
                       <div className="max-w-xs truncate">{message.body}</div>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-gray-900">
+                      <div className="max-w-xs">
+                        {message.store_selection_type === 'all' ? (
+                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            All Stores ({message.stores?.length || 0})
+                          </span>
+                        ) : (
+                          <div className="space-y-1">
+                            {(message.stores || []).slice(0, 2).map((store: any, index: number) => (
+                              <div key={index} className="text-xs text-gray-600">
+                                {store.name || store.code}
+                              </div>
+                            ))}
+                            {(message.stores || []).length > 2 && (
+                              <div className="text-xs text-gray-400">
+                                +{(message.stores || []).length - 2} more
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">

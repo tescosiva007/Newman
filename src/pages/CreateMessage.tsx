@@ -72,6 +72,33 @@ const CreateMessage: React.FC = () => {
 
     setLoading(true)
 
+    // Prepare stores data based on selection type
+    let storesData: any[] = []
+    
+    if (storeMode === 'all') {
+      storesData = availableStores.map(store => ({
+        id: store.id,
+        name: store.name,
+        code: store.code
+      }))
+    } else if (storeMode === 'select') {
+      storesData = selectedStores.map(storeId => {
+        const store = availableStores.find(s => s.id === storeId)
+        return {
+          id: store?.id,
+          name: store?.name,
+          code: store?.code
+        }
+      }).filter(store => store.id) // Remove any undefined stores
+    } else if (storeMode === 'manual') {
+      // Parse manual store codes
+      const storeCodes = manualStores.split(',').map(code => code.trim()).filter(code => code)
+      storesData = storeCodes.map(code => ({
+        code: code,
+        name: `Store ${code}`, // Default name for manual entries
+        manual: true
+      }))
+    }
     try {
       const { error } = await supabase
         .from('messages')
@@ -79,7 +106,9 @@ const CreateMessage: React.FC = () => {
           {
             title,
             body,
-            user_id: user?.id
+            user_id: user?.id,
+            stores: storesData,
+            store_selection_type: storeMode
           }
         ])
 
@@ -87,6 +116,7 @@ const CreateMessage: React.FC = () => {
         setError('Failed to create message')
         console.error('Error creating message:', error)
       } else {
+        console.log('Message created successfully with stores:', storesData)
         navigate('/messages')
       }
     } catch (error) {

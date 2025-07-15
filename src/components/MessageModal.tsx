@@ -7,6 +7,8 @@ interface Message {
   body: string
   created_at: string
   user_id: string
+  stores: any[]
+  store_selection_type: string
 }
 
 interface MessageModalProps {
@@ -53,6 +55,38 @@ const MessageModal: React.FC<MessageModalProps> = ({ message, onClose }) => {
             </div>
           </div>
           
+          <div>
+            <h5 className="text-sm font-medium text-gray-700 mb-3">Target Stores</h5>
+            <div className="bg-gray-50 rounded-lg p-4">
+              {message.store_selection_type === 'all' ? (
+                <div className="flex items-center">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                    All Stores ({message.stores?.length || 0} stores)
+                  </span>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {(message.stores || []).map((store: any, index: number) => (
+                    <div key={index} className="flex items-center justify-between py-2 px-3 bg-white rounded border">
+                      <div>
+                        <div className="font-medium text-gray-900">{store.name || `Store ${store.code}`}</div>
+                        <div className="text-sm text-gray-500">{store.code}</div>
+                      </div>
+                      {store.manual && (
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                          Manual Entry
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                  {(message.stores || []).length === 0 && (
+                    <p className="text-gray-500 italic">No stores selected</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
           <div>
             <h5 className="text-sm font-medium text-gray-700 mb-3">Message Body</h5>
             <div className="bg-gray-50 rounded-lg p-4">

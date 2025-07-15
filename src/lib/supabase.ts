@@ -35,6 +35,8 @@ export type Database = {
           body: string
           user_id: string
           created_at: string
+          stores: any[]
+          store_selection_type: string
         }
         Insert: {
           id?: string
@@ -42,6 +44,8 @@ export type Database = {
           body: string
           user_id: string
           created_at?: string
+          stores?: any[]
+          store_selection_type?: string
         }
         Update: {
           id?: string
@@ -49,6 +53,8 @@ export type Database = {
           body?: string
           user_id?: string
           created_at?: string
+          stores?: any[]
+          store_selection_type?: string
         }
       }
       stores: {
