@@ -27,11 +27,14 @@ const Messages: React.FC = () => {
 
   const fetchMessages = async () => {
     try {
+      console.log('Fetching messages for user:', user?.id)
       const { data, error } = await supabase
         .from('messages')
         .select('*')
         .eq('user_id', user?.id)
         .order('created_at', { ascending: false })
+
+      console.log('Messages response:', { data, error })
 
       if (error) {
         console.error('Error fetching messages:', error)

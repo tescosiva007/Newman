@@ -37,12 +37,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string) => {
     try {
+      console.log('Attempting login for:', email)
       const { data, error } = await supabase
         .from('users')
         .select('id, email')
         .eq('email', email)
         .eq('password', password)
         .single()
+
+      console.log('Login response:', { data, error })
 
       if (error || !data) {
         return { success: false, error: 'Invalid credentials' }

@@ -28,10 +28,13 @@ const CreateMessage: React.FC = () => {
 
   const fetchStores = async () => {
     try {
+      console.log('Fetching stores...')
       const { data, error } = await supabase
         .from('stores')
         .select('*')
         .order('name')
+
+      console.log('Stores response:', { data, error })
 
       if (error) {
         console.error('Error fetching stores:', error)

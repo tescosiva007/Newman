@@ -57,11 +57,14 @@ const Register: React.FC = () => {
 
     try {
       // Check if user already exists
+      console.log('Checking if user exists:', email)
       const { data: existingUser } = await supabase
         .from('users')
         .select('email')
         .eq('email', email)
         .single()
+
+      console.log('Existing user check:', existingUser)
 
       if (existingUser) {
         setError('An account with this email already exists')
@@ -70,6 +73,7 @@ const Register: React.FC = () => {
       }
 
       // Create new user
+      console.log('Creating new user:', email)
       const { error } = await supabase
         .from('users')
         .insert([
@@ -78,6 +82,8 @@ const Register: React.FC = () => {
             password // In production, this should be hashed
           }
         ])
+
+      console.log('User creation result:', error)
 
       if (error) {
         setError('Failed to create account. Please try again.')
