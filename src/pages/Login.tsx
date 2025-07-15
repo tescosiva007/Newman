@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
 
@@ -110,6 +110,26 @@ const Login: React.FC = () => {
               </button>
             </div>
           </form>
+
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">Don't have an account?</span>
+              </div>
+            </div>
+
+            <div className="mt-6 text-center">
+              <Link
+                to="/register"
+                className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+              >
+                Create a new account
+              </Link>
+            </div>
+          </div>
 
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-500">
